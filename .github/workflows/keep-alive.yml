@@ -1,0 +1,19 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # 每 5 天的台灣時間早上 10:00 自動執行一次
+    - cron: '0 2 */5 * *'
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Matcha Notes Database
+        run: |
+          curl -f -s -o /dev/null \
+            -H "apikey: sb_publishable_O37EhedxXIqt_IBhIyAO1w_oTrpKklv" \
+            -H "Authorization: Bearer sb_publishable_O37EhedxXIqt_IBhIyAO1w_oTrpKklv" \
+            "https://qlqevjpxixtfttiokldz.supabase.co/rest/v1/matcha_items?select=id&limit=1"
+          echo "Supabase is awake!"
